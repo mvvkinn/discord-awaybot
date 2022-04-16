@@ -21,8 +21,9 @@ func main() {
 		return
 	}
 
-	// Establish connection to discord server
 	dg.AddHandler(messageCreate)
+
+	// Establish connection to discord server
 	err = dg.Open() // connection variable
 	if err != nil {
 		fmt.Println("Error establish connection, ", err)
@@ -38,12 +39,15 @@ func main() {
 	dg.Close()
 }
 
-func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate, stat *discordgo.State) {
+
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
 
 	if m.Content == "ping" {
 		s.ChannelMessageSend(m.ChannelID, "Pong!")
+
+		fmt.Println(stat)
 	}
 }
